@@ -1,16 +1,14 @@
-import Navbar from "./components/Navbar";
-import Pengenalan from "./components/Pengenalan";
-import PriceList from "./components/PriceList";
-import Bawah from "./components/Bawah";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import MainPage from "./pages/MainPage";
 
 export default function App() {
   return (
-    <>
-    <Navbar/>
-    <Pengenalan/>
-    <PriceList/>
-    <Bawah/>
-    </>
+   <Router> 
+
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+    </Routes>
+   </Router>
    
   );
 }
