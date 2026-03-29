@@ -1,12 +1,28 @@
 import { useState, useEffect } from "react";
 import { useFetcher } from "react-router-dom";
+import PokemonDisplay from "../components/PokemonDisplay";
 
 export default function PokemonPage() {
-  useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon/1")
-      .then((data) => data.json())
-      .then((result) => console.log(result));
-  }, []);
+  const [search, setSearch] = useState("");
+  const [pokemon, setPokemon] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = () => {
+    if(!search) return;
+
+    setLoading(true);
+    fetch(`https://pokeapi.co/api/v2/pokemon/${search}`).then((res) =>{
+      if(!res.ok) throw new Error("pokemon tidak ditemukan")
+        return res.json()
+    }).then((data)=> {
+      setPokemon(data)
+      setLoading(false);
+    }).catch((err) =>{{
+      alert(err.message)
+      setPokemon(null)
+      setLoading(false);
+    }})
+  }
 
   return (
     <div
@@ -42,7 +58,8 @@ export default function PokemonPage() {
             border: "none",
             outline: "none", // Menghapus garis biru saat diklik
             fontSize: "16px",
-          }}
+          }} value={search} onKeyDown={(e) => e.key === "enter" && handleSearch()}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <button
           style={{
@@ -55,10 +72,13 @@ export default function PokemonPage() {
             fontWeight: "bold",
             transition: "background 0.3s",
           }}
+          onClick={handleSearch}
         >
-          CARI
+          {loading ? "mencari..." : "cari"}
         </button>
       </div>
+
+      <PokemonDisplay data={pokemon} />
     </div>
   );
 }
