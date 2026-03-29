@@ -58,7 +58,7 @@ export default function PokemonPage() {
             border: "none",
             outline: "none", // Menghapus garis biru saat diklik
             fontSize: "16px",
-          }} value={search} onKeyDown={(e) => e.key === "enter" && handleSearch()}
+          }} value={search} onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           onChange={(e) => setSearch(e.target.value)}
         />
         <button
